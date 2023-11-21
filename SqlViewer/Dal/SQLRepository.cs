@@ -130,5 +130,18 @@ namespace SqlViewer.Dal
             da.Fill(ds);
             return ds;
         }
+
+
+        public DataSet ExecuteQuery (string query)
+        {
+            using SqlConnection con = new(cs);
+            SqlDataAdapter da = new(
+                query,
+                con
+                );
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ds;
+        }
     }
 }

@@ -53,6 +53,7 @@
             tbServer.Name = "tbServer";
             tbServer.Size = new Size(198, 23);
             tbServer.TabIndex = 1;
+            tbServer.Text = ".";
             // 
             // btnLogIn
             // 
@@ -70,6 +71,7 @@
             tbUserName.Name = "tbUserName";
             tbUserName.Size = new Size(198, 23);
             tbUserName.TabIndex = 2;
+            tbUserName.Text = "sa";
             // 
             // label2
             // 
@@ -86,6 +88,7 @@
             tbPassword.Name = "tbPassword";
             tbPassword.Size = new Size(198, 23);
             tbPassword.TabIndex = 3;
+            tbPassword.Text = "SQL";
             tbPassword.UseSystemPasswordChar = true;
             // 
             // label3

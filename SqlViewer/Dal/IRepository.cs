@@ -6,6 +6,7 @@ namespace SqlViewer.Dal
     internal interface IRepository
     {
         DataSet CreateDataset(DbEntity dbEntity);
+        DataSet ExecuteQuery(string query);
         IEnumerable<Column> GetColumns(DbEntity entity);
         IEnumerable<Database> GetDatabases();
         IEnumerable<DbEntity> GetDbEntityes(Database database, DbEntityType entity);

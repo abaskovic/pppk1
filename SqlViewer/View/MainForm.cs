@@ -38,7 +38,7 @@ namespace SqlViewer.View
 
         private void ClearForm()
         {
-            tbContent.Text = string.Empty;
+            tbQuery.Text = string.Empty;
             tsbSave.Enabled = false;
             tsbSelect.Enabled = false;
             dbEntity = null;
@@ -206,6 +206,13 @@ namespace SqlViewer.View
         {
             ClearForm();
         }
+
+        private void BtnExecute_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("sa");
+            DataSet ds = RepositoryFactory.Repository.ExecuteQuery(tbQuery.Text);
+            dgResults.DataSource = ds;
+           ;        }
 
 
     }
