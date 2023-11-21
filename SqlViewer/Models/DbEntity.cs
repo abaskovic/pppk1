@@ -14,7 +14,7 @@ namespace SqlViewer.Models
         public DbEntity()
         {
             columns = new Lazy<IEnumerable<Column>>(
-                ()=>Repository.GetColumns(this)
+                ()=>RepositoryFactory.Repository.GetColumns(this)
                 );
         }
 

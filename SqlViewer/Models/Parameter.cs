@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SqlViewer.Models
 {
-    internal class Procedure
+    internal class Parameter
     {
+        public string? Mode { get; set; }
         public string? Name { get; set; }
-        public string? Definition { get; set; }
-        public Database? Database { get; set; }
-        public override string ToString() => $"{Name}"!;
+        public string? DataType { get; set; }
+        public override string ToString() => $"{Mode} {Name} ({DataType})"!;
 
     }
 }

@@ -1,5 +1,6 @@
 using SqlViewer.Dal;
 using SqlViewer.Models;
+using System.Data;
 using System.Drawing.Text;
 
 namespace SqlViewer.View
@@ -22,7 +23,7 @@ namespace SqlViewer.View
 
         private void LoadDataBases()
         {
-            databases = new List<Database>(Repository.GetDatabases());
+            databases = new List<Database>(RepositoryFactory.Repository.GetDatabases());
         }
 
         private void InitTree()
@@ -48,15 +49,37 @@ namespace SqlViewer.View
 
         private void TsbSave_Click(object sender, EventArgs e)
         {
+            if (dbEntity == null)
+            {
+                return;
+            }
+            var dialog = new SaveFileDialog
+            {
+                Filter = FileFilter,
+                FileName = string.Format(
+                    FileName, dbEntity.Name)
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                DataSet ds = RepositoryFactory.Repository.CreateDataset(dbEntity);
+                ds.WriteXml(dialog.FileName, XmlWriteMode.WriteSchema);
+            }
 
         }
 
-        private void TsbSave(object sender, EventArgs e)
+        private const string FileFilter = "XML files(*.xml)|*.xml|All files(*.*)|*.*";
+        private const string FileName = "{0}.xml";
+
+        private void TsbSelect_Click(object sender, EventArgs e)
         {
-
+            if (dbEntity == null)
+            {
+                return;
+            }
+            DataSet ds = RepositoryFactory.Repository.CreateDataset(dbEntity);
+            new ResultForm(ds.Tables[0]).ShowDialog();
         }
-
-        private Database? database;
         private void TwServer_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e is null || databases == null)
@@ -79,6 +102,7 @@ namespace SqlViewer.View
                             { Tag = db }
                         ));
                     break;
+
 
 
                 case { Tag: TagType.Tables }:
@@ -123,7 +147,7 @@ namespace SqlViewer.View
                         ));
                     break;
 
-               
+
 
                 case { Tag: Database db }:
                     e.Node.Nodes.Clear();
@@ -145,11 +169,10 @@ namespace SqlViewer.View
                       new[] { new TreeNode() }
                       )
                     { Tag = TagType.Procedures });
-                                      
+
                     break;
 
                 case { Tag: DbEntity entity }:
-                    dbEntity = entity;
                     e.Node.Nodes.Clear();
                     entity?
                         .Columns
@@ -159,6 +182,17 @@ namespace SqlViewer.View
 
                     tsbSave.Enabled = true;
                     tsbSelect.Enabled = true;
+                    dbEntity = entity;
+
+                    break;
+
+                case { Tag: Procedure procedure }:
+                    e.Node.Nodes.Clear();
+                    procedure?
+                        .Parameters
+                        .ToList()
+                        .ForEach(p => e.Node.Nodes.Add(
+                            new TreeNode(p.ToString())));
                     break;
 
             }
@@ -166,5 +200,13 @@ namespace SqlViewer.View
             tvServer.EndUpdate();
         }
         private DbEntity? dbEntity;
+        private Database? database;
+
+        private void TwServer_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            ClearForm();
+        }
+
+
     }
 }

@@ -17,11 +17,11 @@ namespace SqlViewer.Models
         public Database()
         {
             tables = new Lazy<IEnumerable<DbEntity>>(
-                () =>Repository.GetDbEntityes(this, DbEntityType.Table));
+                () =>RepositoryFactory.Repository.GetDbEntityes(this, DbEntityType.Table));
             views = new Lazy<IEnumerable<DbEntity>>(
-                () => Repository.GetDbEntityes(this, DbEntityType.View));
+                () => RepositoryFactory.Repository.GetDbEntityes(this, DbEntityType.View));
             procedures = new Lazy<IEnumerable<Procedure>>(
-                () => Repository.GetProcedures(this));
+                () => RepositoryFactory.Repository.GetProcedures(this));
         }
 
         public IList<DbEntity> Tables

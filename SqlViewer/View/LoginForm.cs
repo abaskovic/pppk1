@@ -26,7 +26,7 @@ namespace SqlViewer.View
             try
             {
                 HideError();
-                Repository.Login(
+                RepositoryFactory.Repository.Login(
                    tbServer.Text.Trim(),
                    tbUserName.Text.Trim(),
                    tbPassword.Text.Trim()

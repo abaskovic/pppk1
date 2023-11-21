@@ -54,7 +54,7 @@
             tsbSelect.Name = "tsbSelect";
             tsbSelect.Size = new Size(23, 22);
             tsbSelect.Text = "Select";
-            tsbSelect.Click += TsbSave_Click;
+            tsbSelect.Click += TsbSelect_Click;
             // 
             // tsbSave
             // 
@@ -72,6 +72,7 @@
             tvServer.Name = "tvServer";
             tvServer.Size = new Size(272, 548);
             tvServer.TabIndex = 1;
+            tvServer.AfterCollapse += TwServer_AfterCollapse;
             tvServer.BeforeExpand += TwServer_BeforeExpand;
             // 
             // tbContent
@@ -80,7 +81,7 @@
             tbContent.Multiline = true;
             tbContent.Name = "tbContent";
             tbContent.ScrollBars = ScrollBars.Vertical;
-            tbContent.Size = new Size(447, 548);
+            tbContent.Size = new Size(447, 321);
             tbContent.TabIndex = 2;
             // 
             // MainForm

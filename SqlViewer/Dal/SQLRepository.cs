@@ -1,6 +1,7 @@
 ﻿using SqlViewer.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SqlViewer.Dal
 {
-    static class Repository
+    class SQLRepository : IRepository
     {
         #region constans
         private const string ConnectionString = "Server={0};Uid={1};Pwd={2}";
@@ -20,9 +21,9 @@ namespace SqlViewer.Dal
         private const string SelectQuery = "SELECT * FROM {0}.{1}.{2}";
         #endregion
 
-        private static string? cs;
+        private string? cs;
 
-        internal static IEnumerable<Database> GetDatabases()
+        public IEnumerable<Database> GetDatabases()
         {
             using SqlConnection con = new(cs);
             con.Open();
@@ -37,7 +38,7 @@ namespace SqlViewer.Dal
                 };
             }
         }
-        internal static IEnumerable<Procedure> GetProcedures(Database database)
+        public IEnumerable<Procedure> GetProcedures(Database database)
         {
             using SqlConnection con = new(cs);
             con.Open();
@@ -56,7 +57,7 @@ namespace SqlViewer.Dal
         }
 
 
-        internal static IEnumerable<Column> GetColumns(DbEntity entity)
+        public IEnumerable<Column> GetColumns(DbEntity entity)
         {
             using SqlConnection con = new(cs);
             con.Open();
@@ -73,7 +74,25 @@ namespace SqlViewer.Dal
             }
         }
 
-        internal static IEnumerable<DbEntity> GetDbEntityes(Database database, DbEntityType entity)
+        public IEnumerable<Parameter> GetParameters(Procedure procedure)
+        {
+            using SqlConnection con = new(cs);
+            con.Open();
+            using SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = string.Format(SelectProcedureParameters, procedure.Database?.Name, procedure.Name);
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                yield return new Parameter
+                {
+                    Name = dr[nameof(Parameter.Name)].ToString(),
+                    Mode = dr[nameof(Parameter.Mode)].ToString(),
+                    DataType = dr[nameof(Parameter.DataType)].ToString()
+                };
+            }
+        }
+
+        public IEnumerable<DbEntity> GetDbEntityes(Database database, DbEntityType entity)
         {
             using SqlConnection con = new(cs);
             con.Open();
@@ -86,18 +105,30 @@ namespace SqlViewer.Dal
                 {
                     Name = dr[nameof(DbEntity.Name)].ToString(),
                     Schema = dr[nameof(DbEntity.Schema)].ToString(),
-                    Database = database, 
+                    Database = database,
                 };
             }
         }
 
-        internal static void Login(
+        public void Login(
             string server, string username, string password)
         {
             using SqlConnection con = new SqlConnection(
                 string.Format(ConnectionString, server, username, password));
             cs = con.ConnectionString;
             con.Open();
+        }
+
+        public DataSet CreateDataset(DbEntity dbEntity)
+        {
+            using SqlConnection con = new(cs);
+            SqlDataAdapter da = new(
+                string.Format(SelectQuery, dbEntity.Database?.Name, dbEntity.Schema, dbEntity.Name),
+                con
+                );
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ds;
         }
     }
 }
