@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqlViewer.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -20,7 +21,77 @@ namespace SqlViewer.Dal
         #endregion
 
         private static string? cs;
-        internal static void Login (
+
+        internal static IEnumerable<Database> GetDatabases()
+        {
+            using SqlConnection con = new(cs);
+            con.Open();
+            using SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = SelectDatabases;
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                yield return new Database
+                {
+                    Name = dr[nameof(Database.Name)].ToString()
+                };
+            }
+        }
+        internal static IEnumerable<Procedure> GetProcedures(Database database)
+        {
+            using SqlConnection con = new(cs);
+            con.Open();
+            using SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = string.Format(SelectProcedures, database.Name);
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                yield return new Procedure
+                {
+                    Name = dr[nameof(Procedure.Name)].ToString(),
+                    Definition = dr[nameof(Procedure.Definition)].ToString(),
+                    Database = database
+                };
+            }
+        }
+
+
+        internal static IEnumerable<Column> GetColumns(DbEntity entity)
+        {
+            using SqlConnection con = new(cs);
+            con.Open();
+            using SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = string.Format(SelectColumns, entity.Database?.Name, entity.Name);
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                yield return new Column
+                {
+                    Name = dr[nameof(Column.Name)].ToString(),
+                    DataType = dr[nameof(Column.DataType)].ToString()
+                };
+            }
+        }
+
+        internal static IEnumerable<DbEntity> GetDbEntityes(Database database, DbEntityType entity)
+        {
+            using SqlConnection con = new(cs);
+            con.Open();
+            using SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = string.Format(SelectEntities, database.Name, entity.ToString());
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                yield return new DbEntity
+                {
+                    Name = dr[nameof(DbEntity.Name)].ToString(),
+                    Schema = dr[nameof(DbEntity.Schema)].ToString(),
+                    Database = database, 
+                };
+            }
+        }
+
+        internal static void Login(
             string server, string username, string password)
         {
             using SqlConnection con = new SqlConnection(
