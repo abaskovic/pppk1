@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Menager.Models;
+using Menager.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,17 +17,15 @@ using System.Windows.Shapes;
 
 namespace Menager
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+
+    public partial class EditPersonPage : FramePage
     {
-        public MainWindow()
+        private readonly Person? person;
+        public EditPersonPage(PersonViewModel personViewModel, Person? person = null)
+            :base(personViewModel)
         {
             InitializeComponent();
-            frame.Navigate(new ListPeoplePage(new ViewModel.PersonViewModel()) {
-                Frame = frame
-            });
+            this.person = person?? new Person();
         }
     }
 }

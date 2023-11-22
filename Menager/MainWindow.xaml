@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Menager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="Manager" Height="450" Width="600">
     <Grid Background="{StaticResource GradientBackground}">
 
+        <Frame x:Name="frame"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               NavigationUIVisibility="Hidden">
+            
+        </Frame>
     </Grid>
 </Window>
