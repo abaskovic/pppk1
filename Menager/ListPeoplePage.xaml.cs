@@ -21,7 +21,7 @@ namespace Menager
     public partial class ListPeoplePage : FramePage
     {
         public ListPeoplePage(PersonViewModel personViewModel)
-            :base(personViewModel) 
+            : base(personViewModel)
         {
             InitializeComponent();
             lvPeople.ItemsSource = personViewModel.People;
@@ -29,15 +29,22 @@ namespace Menager
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Frame?.Navigate(new EditPersonPage(PersonViewModel));
+            Frame?.Navigate(new EditPersonPage(PersonViewModel)
+            {
+                Frame = Frame
+            });
 
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (lvPeople.SelectedItem!=null) { 
-            
-            Frame?.Navigate(new EditPersonPage(PersonViewModel, lvPeople.SelectedItems as Person));
+            if (lvPeople.SelectedItem != null)
+            {
+
+                Frame?.Navigate(new EditPersonPage(PersonViewModel, lvPeople.SelectedItem as Person)
+                {
+                    Frame = Frame
+                });
             }
 
         }
@@ -46,8 +53,13 @@ namespace Menager
         {
             if (lvPeople.SelectedItem != null)
             {
-                PersonViewModel.People.Remove((lvPeople.SelectedItem as Person)!);
+                if (MessageBox.Show("Do You Want Delete ? ", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    PersonViewModel.People.Remove((lvPeople.SelectedItem as Person)!);
+                }
             }
+
+
         }
     }
 }
