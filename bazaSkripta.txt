@@ -1,0 +1,85 @@
+create database fax
+go 
+use fax
+
+CREATE TABLE Drzava (
+    DrzavaID INT PRIMARY KEY,
+    Naziv VARCHAR(50)
+);
+
+CREATE TABLE Studenti (
+    StudentID INT PRIMARY KEY,
+    Ime VARCHAR(50),
+    Prezime VARCHAR(50),
+    DatumRodjenja DATE,
+    MestoRodjenja VARCHAR(50),
+    DrzavaID INT,
+    FOREIGN KEY (DrzavaID) REFERENCES Drzava(DrzavaID)
+);
+
+CREATE TABLE Predmeti (
+    PredmetID INT PRIMARY KEY,
+    Naziv VARCHAR(100)
+);
+
+CREATE TABLE Profesori (
+    ProfesorID INT PRIMARY KEY,
+    Ime VARCHAR(50),
+    Prezime VARCHAR(50),
+    MentorID INT,
+    FOREIGN KEY (MentorID) REFERENCES Profesori(ProfesorID)
+);
+
+CREATE TABLE Ispiti (
+    IspitID INT PRIMARY KEY,
+    StudentID INT,
+    PredmetID INT,
+    ProfesorID INT,
+    Ocena INT,
+    FOREIGN KEY (StudentID) REFERENCES Studenti(StudentID),
+    FOREIGN KEY (PredmetID) REFERENCES Predmeti(PredmetID),
+    FOREIGN KEY (ProfesorID) REFERENCES Profesori(ProfesorID)
+);
+
+-- Dodavanje podataka
+INSERT INTO Drzava (DrzavaID, Naziv)
+VALUES
+    (1, 'Hrvatska'),
+    (2, 'Srbija'),
+    (3, 'Bosna i Hercegovina'),
+    (4, 'Crna Gora'),
+    (5, 'Severna Makedonija');
+
+INSERT INTO Studenti (StudentID, Ime, Prezime, DatumRodjenja, MestoRodjenja, DrzavaID)
+VALUES
+    (1, 'Ante', 'Antic', '1995-03-15', 'Zagreb', 1),
+    (2, 'Ivo', 'Ivic', '1998-07-20', 'Split', 2),
+    (3, 'Mia', 'Mijic', '1997-01-10', 'Sarajevo', 3),
+    (4, 'Ana', 'Aniæ', '1996-05-22', 'Podgorica', 4),
+    (5, 'Marko', 'Matic', '1999-09-05', 'Skopje', 5);
+
+INSERT INTO Predmeti (PredmetID, Naziv)
+VALUES
+    (1, 'Matematika'),
+    (2, 'Fizika'),
+    (3, 'Informatika'),
+    (4, 'Biologija'),
+    (5, 'Kemija');
+
+INSERT INTO Profesori (ProfesorID, Ime, Prezime, MentorID)
+VALUES
+    (1, 'Tanja', 'Tanjic', NULL),
+    (2, 'Iva', 'Ivic', 1),
+    (3, 'Ivan', 'Ivkovic', NULL),
+    (4, 'Tea', 'Teic', 2),
+    (5, 'Mirko', 'Petric', 3);
+
+INSERT INTO Ispiti (IspitID, StudentID, PredmetID, ProfesorID, Ocena)
+VALUES
+    (1, 1, 1, 2, 2),
+    (2, 2, 3, 4, 4),
+    (3, 3, 2, 1, 4),
+    (4, 4, 4, 2, 1),
+    (5, 5, 5, 3, 3);
+
+

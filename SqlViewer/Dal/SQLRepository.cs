@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SqlViewer.Dal
 {
@@ -131,17 +133,76 @@ namespace SqlViewer.Dal
             return ds;
         }
 
+        private string? message;
+        private string? catalog = "master";
 
-        public DataSet ExecuteQuery (string query)
+        public DataSet? ExecuteQuery(string query)
         {
-            using SqlConnection con = new(cs);
-            SqlDataAdapter da = new(
-                query,
-                con
-                );
+            var UpperQuery = query.ToUpper();
+            Debug.WriteLine(catalog);
+            try
+            {
+                using SqlConnection con = new($"{cs}; Initial Catalog={catalog}");
+                con.Open();
+
+                if (UpperQuery.Contains("SELECT"))
+                {
+                    return ExecuteSelectQuery(query, con);
+                }
+
+                if (UpperQuery.Contains("USE"))
+                {
+
+                    return ExecuteUse(query, con);
+                }
+                else
+                {
+                    return ExecuteNonQuery(query, con);
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return null;
+            }
+        }
+
+        private DataSet? ExecuteSelectQuery(string query, SqlConnection con)
+        {
+            SqlDataAdapter da = new(query, con);
             DataSet ds = new DataSet();
             da.Fill(ds);
+            message = $"{ds.Tables[0].Rows.Count} row(s) affected.";
             return ds;
         }
+        private DataSet? ExecuteUse(string query, SqlConnection con)
+        {
+            catalog = query.Remove(0, 4);
+            message = GetSuccesMessage;
+            return null;
+        }
+
+        private DataSet? ExecuteNonQuery(string query, SqlConnection con)
+        {
+            using SqlCommand cmd = new SqlCommand(query, con);
+            int rowAffected = cmd.ExecuteNonQuery();
+            var UpperQuery = query.ToUpper();
+            if (UpperQuery.Contains("CREATE") || UpperQuery.Contains("ALTER") || UpperQuery.Contains("DROP"))
+            {
+                message = GetSuccesMessage;
+            }
+            else
+            {
+                message = $"{rowAffected} row(s) affected.";
+            }
+            return null;
+        }
+
+        public string? GetMessage() => message;
+        public string? GetCurrentDatabase() => catalog;
+        private static string? GetSuccesMessage => $"Commands completed successfully.{Environment.NewLine}Completion time: {DateTime.Now}";
+
+
+
     }
 }

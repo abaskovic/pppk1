@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             toolStrip1 = new ToolStrip();
@@ -38,12 +39,18 @@
             btnExecute = new Button();
             tabControl = new TabControl();
             tabResults = new TabPage();
-            tabMessages = new TabPage();
             dgResults = new DataGridView();
+            tabMessages = new TabPage();
+            tbMessages = new TextBox();
+            lbQueryError = new Label();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            label1 = new Label();
+            lbCurrentDB = new Label();
             toolStrip1.SuspendLayout();
             tabControl.SuspendLayout();
             tabResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgResults).BeginInit();
+            tabMessages.SuspendLayout();
             SuspendLayout();
             // 
             // toolStrip1
@@ -86,11 +93,11 @@
             // 
             // tbQuery
             // 
-            tbQuery.Location = new Point(290, 28);
+            tbQuery.Location = new Point(290, 50);
             tbQuery.Multiline = true;
             tbQuery.Name = "tbQuery";
             tbQuery.ScrollBars = ScrollBars.Vertical;
-            tbQuery.Size = new Size(447, 321);
+            tbQuery.Size = new Size(447, 299);
             tbQuery.TabIndex = 2;
             // 
             // btnExecute
@@ -128,16 +135,6 @@
             tabResults.Text = "Results";
             tabResults.UseVisualStyleBackColor = true;
             // 
-            // tabMessages
-            // 
-            tabMessages.Location = new Point(4, 24);
-            tabMessages.Name = "tabMessages";
-            tabMessages.Padding = new Padding(3);
-            tabMessages.Size = new Size(439, 177);
-            tabMessages.TabIndex = 1;
-            tabMessages.Text = "Messages";
-            tabMessages.UseVisualStyleBackColor = true;
-            // 
             // dgResults
             // 
             dataGridViewCellStyle1.BackColor = Color.FromArgb(255, 255, 192);
@@ -150,11 +147,70 @@
             dgResults.Size = new Size(433, 171);
             dgResults.TabIndex = 0;
             // 
+            // tabMessages
+            // 
+            tabMessages.Controls.Add(tbMessages);
+            tabMessages.Location = new Point(4, 24);
+            tabMessages.Name = "tabMessages";
+            tabMessages.Padding = new Padding(3);
+            tabMessages.Size = new Size(439, 177);
+            tabMessages.TabIndex = 1;
+            tabMessages.Text = "Messages";
+            tabMessages.UseVisualStyleBackColor = true;
+            // 
+            // tbMessages
+            // 
+            tbMessages.Location = new Point(0, 0);
+            tbMessages.Multiline = true;
+            tbMessages.Name = "tbMessages";
+            tbMessages.ScrollBars = ScrollBars.Vertical;
+            tbMessages.Size = new Size(436, 177);
+            tbMessages.TabIndex = 7;
+            // 
+            // lbQueryError
+            // 
+            lbQueryError.AutoSize = true;
+            lbQueryError.ForeColor = Color.Red;
+            lbQueryError.Location = new Point(290, 355);
+            lbQueryError.Name = "lbQueryError";
+            lbQueryError.Size = new Size(121, 15);
+            lbQueryError.TabIndex = 6;
+            lbQueryError.Text = "Query can't be empty";
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(290, 28);
+            label1.Name = "label1";
+            label1.Size = new Size(101, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Current Database:";
+            // 
+            // lbCurrentDB
+            // 
+            lbCurrentDB.AutoSize = true;
+            lbCurrentDB.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lbCurrentDB.ForeColor = Color.Black;
+            lbCurrentDB.Location = new Point(388, 28);
+            lbCurrentDB.Name = "lbCurrentDB";
+            lbCurrentDB.Size = new Size(54, 15);
+            lbCurrentDB.TabIndex = 8;
+            lbCurrentDB.Text = "MASTER";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(749, 629);
+            Controls.Add(lbCurrentDB);
+            Controls.Add(label1);
+            Controls.Add(lbQueryError);
             Controls.Add(tabControl);
             Controls.Add(btnExecute);
             Controls.Add(tbQuery);
@@ -169,6 +225,8 @@
             tabControl.ResumeLayout(false);
             tabResults.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgResults).EndInit();
+            tabMessages.ResumeLayout(false);
+            tabMessages.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -185,5 +243,10 @@
         private TabPage tabResults;
         private TabPage tabMessages;
         private DataGridView dgResults;
+        private Label lbQueryError;
+        private TextBox tbMessages;
+        private ContextMenuStrip contextMenuStrip1;
+        private Label label1;
+        private Label lbCurrentDB;
     }
 }

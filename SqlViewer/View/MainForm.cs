@@ -1,6 +1,7 @@
 using SqlViewer.Dal;
 using SqlViewer.Models;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing.Text;
 
 namespace SqlViewer.View
@@ -15,11 +16,14 @@ namespace SqlViewer.View
         public MainForm()
         {
             InitializeComponent();
+            HideError();
             LoadDataBases();
             InitTree();
             ClearForm();
 
         }
+
+        private void HideError() => lbQueryError.Visible = false;
 
         private void LoadDataBases()
         {
@@ -207,12 +211,35 @@ namespace SqlViewer.View
             ClearForm();
         }
 
+
         private void BtnExecute_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("sa");
-            DataSet ds = RepositoryFactory.Repository.ExecuteQuery(tbQuery.Text);
-            dgResults.DataSource = ds;
-           ;        }
+            string query = tbQuery.Text.Trim();
+            if (!string.IsNullOrEmpty(query))
+            {
+                lbQueryError.Visible = false;
+                DataSet? dataSet = RepositoryFactory.Repository.ExecuteQuery(query);
+                DataSet ds = dataSet;
+                tbMessages.Text = RepositoryFactory.Repository.GetMessage();
+                lbCurrentDB.Text = RepositoryFactory.Repository.GetCurrentDatabase();
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    dgResults.DataSource = ds.Tables[0];
+                    tabControl.SelectedTab = tabResults;
+                }
+                else
+                {
+                    tabControl.SelectedTab = tabMessages;
+                    dgResults.DataSource = null;
+                }
+            }
+            else
+            {
+                lbQueryError.Visible = true;
+            }
+        }
+
 
 
     }
