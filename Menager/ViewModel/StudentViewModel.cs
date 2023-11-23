@@ -30,8 +30,8 @@ namespace Menager.ViewModel
                         e.OldItems!.OfType<Student>().ToList()[0].IdStudent);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RepositoryFactory.GetRepository.deleteStudent(
-                        e.NewItems!.OfType<Student>().ToList()[0].IdStudent);
+                    RepositoryFactory.GetRepository.updateStudent(
+                        e.NewItems!.OfType<Student>().ToList()[0]);
                     break;
 
             }

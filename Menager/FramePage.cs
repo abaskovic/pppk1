@@ -10,12 +10,17 @@ namespace Menager
 {
     public class FramePage:Page
     {
-        public FramePage(ExamViewModel examViewModel)
+        public FramePage(ExamViewModel examViewModel, ProfessorViewModel professorViewModel, StudentViewModel studentViewModel)
         {
             ExamViewModel = examViewModel;
+            StudentViewModel = studentViewModel;
+            ProfessorViewModel = professorViewModel;
+
         }
 
         public ExamViewModel ExamViewModel { get; }
+        public ProfessorViewModel ProfessorViewModel { get; }
+        public StudentViewModel StudentViewModel { get; }
         public Frame? Frame { get; set; }
     }
 }

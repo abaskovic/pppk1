@@ -1,0 +1,48 @@
+﻿<local:FramePage x:Class="Menager.EditExamPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Menager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="600"
+      Title="EditExamPage">
+
+    <Grid x:Name="grid"  Background="{StaticResource GradientBackground}" RenderTransformOrigin="0.518,0.52">
+        <Label Foreground="White" Content="Student" HorizontalAlignment="Left" Margin="34,102,0,0" VerticalAlignment="Top" Width="149"/>
+        <Label Foreground="White" Content="Professor" HorizontalAlignment="Left" Margin="34,153,0,0" VerticalAlignment="Top" Width="146"/>
+        <Label Foreground="White" Content="Mark" HorizontalAlignment="Left" Margin="34,0,0,0" VerticalAlignment="Center" Width="69"/>
+        <TextBox x:Name="tbMark" Tag="Int" HorizontalAlignment="Left" Margin="405,0,0,0" TextWrapping="Wrap" Text="{Binding Mark}" VerticalAlignment="Center" Width="80" RenderTransformOrigin="0.752,0.487" Height="26" BorderBrush="#FF0040FF"/>
+        <Label Foreground="White" Content="Subject" HorizontalAlignment="Left" Margin="34,259,0,0" VerticalAlignment="Top" Width="85"/>
+
+        <Button Content="Save" Background="Black" Foreground="White" x:Name="btnSave" Click="BtnSave_Click" HorizontalAlignment="Left" Margin="34,333,0,0" VerticalAlignment="Top" Height="27" Width="451"/>
+        <Button Background="Transparent" x:Name="btnBack" Click="BtnBack_Click" BorderBrush="Transparent" HorizontalAlignment="Left" Margin="35,57,0,0" VerticalAlignment="Top" Height="27" Width="33" RenderTransformOrigin="0.684,1.385">
+            <Image Source="/Assets/back.png"/>
+        </Button>
+
+        <ComboBox SelectionChanged="CbStudent_SelectionChanged"  IsEditable="True" IsReadOnly="True" HorizontalAlignment="Left" x:Name="cbStudent" Margin="194,106,0,0" VerticalAlignment="Top" Width="291" Height="34">
+            <ComboBox.ToolTip>
+                <Image x:Name="picture"  Width="200" Height="200" />
+            </ComboBox.ToolTip>
+            </ComboBox>
+        <ComboBox  IsEditable="True" IsReadOnly="True" HorizontalAlignment="Left" x:Name="cbProfessor" Margin="192,155,0,0" VerticalAlignment="Top" Width="293" Height="34"/>
+        <ComboBox  IsEditable="True" IsReadOnly="True" HorizontalAlignment="Left" x:Name="cbSubject" Margin="192,266,0,0" VerticalAlignment="Top" Width="293" Height="22"/>
+        <Button  Background="Transparent" BorderBrush="Transparent" x:Name="btnAddStudent" HorizontalAlignment="Left" Margin="485,106,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Height="34" Width="40" Click="BtnAddStudent_Click">
+            <Image Source="/Assets/plus.png"/>
+
+        </Button>
+        <Button  Background="Transparent" BorderBrush="Transparent" x:Name="btnAddProfessor"  HorizontalAlignment="Left" Margin="485,155,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Height="34" Width="40" Click="BtmAddProfessor_Click">
+            <Image Source="/Assets/plus.png"/>
+
+        </Button>
+
+        <Button Background="Transparent" x:Name="btnEditStudent"  BorderBrush="Transparent" HorizontalAlignment="Left" Margin="525,110,0,0" VerticalAlignment="Top" Height="26" Width="33" RenderTransformOrigin="0.684,1.385" Click="BtnEditStudent_Click">
+            <Image Source="/Assets/edit.png"/>
+        </Button>
+
+        <Button Background="Transparent" x:Name="btnEditProffesor"  BorderBrush="Transparent" HorizontalAlignment="Left" Margin="525,159,0,0" VerticalAlignment="Top" Height="26" Width="33" RenderTransformOrigin="0.684,1.385" Click="BtnEditProffesor_Click">
+            <Image Source="/Assets/edit.png"/>
+        </Button>
+
+    </Grid>
+</local:FramePage>

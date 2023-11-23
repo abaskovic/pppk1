@@ -31,13 +31,16 @@ namespace Menager.ViewModel
                         e.OldItems!.OfType<Exam>().ToList()[0].IdExam);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    RepositoryFactory.GetRepository.DeleteExam(
-                        e.NewItems!.OfType<Exam>().ToList()[0].IdExam);
+
+                    Debug.WriteLine(e.NewItems!.OfType<Exam>().ToList()[0].IdExam);
+                    Debug.WriteLine(e.NewItems!.OfType<Exam>().ToList());
+
+                    RepositoryFactory.GetRepository.UpdateExam(
+                        e.NewItems!.OfType<Exam>().ToList()[0]);
                     break;
 
             }
         }
         public void UpdateExam(Exam exam) => Exam[Exam.IndexOf(exam)] = exam;
-
     }
 }

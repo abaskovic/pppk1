@@ -8,7 +8,7 @@ namespace Menager
         public MainWindow()
         {
             InitializeComponent();
-            frame.Navigate(new ListExamsPage(new ViewModel.ExamViewModel()) {
+            frame.Navigate(new ListExamsPage(new ViewModel.ExamViewModel(),  new ViewModel.ProfessorViewModel(), new ViewModel.StudentViewModel()) {
                 Frame = frame
             });
         }

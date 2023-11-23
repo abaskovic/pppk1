@@ -9,7 +9,7 @@ namespace Menager.Dal
 {
     public interface IRepository
     {
-             IList<Subject> GetSubjects();
+        IList<Subject> GetSubjects();
         IList<Exam> GetExams();
         IList<Student> GetStudents();
         IList<Professor> GetProfessors();

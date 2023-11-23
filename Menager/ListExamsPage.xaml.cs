@@ -1,29 +1,15 @@
 ﻿using Menager.Models;
 using Menager.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Menager
 {
-    /// <summary>
-    /// Interaction logic for ListExamsPage.xaml
-    /// </summary>
+
     public partial class ListExamsPage : FramePage
     {
-        public ListExamsPage(ExamViewModel examViewModel)
-            :base(examViewModel)    
+        public ListExamsPage(ExamViewModel examViewModel, ProfessorViewModel professorViewModel, StudentViewModel studentViewModel)
+                  : base(examViewModel, professorViewModel, studentViewModel)
+
         {
             InitializeComponent();
             lvExams.ItemsSource = examViewModel.Exam;
@@ -31,10 +17,10 @@ namespace Menager
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            //Frame?.Navigate(new EditPersonPage(PersonViewModel)
-            //{
-            //    Frame = Frame
-            //});
+            Frame?.Navigate(new EditExamPage(ExamViewModel, ProfessorViewModel, StudentViewModel)
+            {
+                Frame = Frame
+            });
 
         }
 
@@ -43,10 +29,10 @@ namespace Menager
             if (lvExams.SelectedItem != null)
             {
 
-                //Frame?.Navigate(new EditPersonPage(PersonViewModel, lvExams.SelectedItem as Person)
-                //{
-                //    Frame = Frame
-                //});
+                Frame?.Navigate(new EditExamPage(ExamViewModel, ProfessorViewModel, StudentViewModel, lvExams.SelectedItem as Exam)
+                {
+                    Frame = Frame
+                });
             }
 
         }
@@ -55,10 +41,10 @@ namespace Menager
         {
             if (lvExams.SelectedItem != null)
             {
-                //if (MessageBox.Show("Do You Want Delete ? ", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                //{
-                //    PersonViewModel.People.Remove((lvExams.SelectedItem as Person)!);
-                //}
+                if (MessageBox.Show("Do You Want Delete ? ", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    ExamViewModel.Exam.Remove((lvExams.SelectedItem as Exam)!);
+                }
             }
 
 

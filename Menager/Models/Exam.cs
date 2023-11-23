@@ -19,7 +19,6 @@ namespace Menager.Models
         public string? SubjectName { get; set; }
 
 
-        public override string? ToString() => IdExam.ToString();
 
     }
 }

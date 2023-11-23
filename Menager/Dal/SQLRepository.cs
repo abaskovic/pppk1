@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.Pkcs;
@@ -28,8 +29,6 @@ namespace Menager.Dal
             using SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = MethodBase.GetCurrentMethod()?.Name;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-
 
             using SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -74,7 +73,7 @@ namespace Menager.Dal
             StudentName = getStudent((int)reader[nameof(Exam.IdStudent)]).ToString(),
             ProfessorName = getProfessor((int)reader[nameof(Exam.IdProfessor)]).ToString(),
             IdSubject = (int)reader[nameof(Exam.IdSubject)],
-            SubjectName= reader[nameof(Exam.SubjectName)].ToString()
+            SubjectName = reader[nameof(Exam.SubjectName)].ToString()
 
         };
 
@@ -153,6 +152,7 @@ namespace Menager.Dal
                 Direction = System.Data.ParameterDirection.Output
             };
             cmd.Parameters.Add(id);
+            Debug.WriteLine(cmd.Parameters);
             cmd.ExecuteNonQuery();
             exam.IdExam = (int)id.Value;
         }
@@ -170,6 +170,7 @@ namespace Menager.Dal
             cmd.Parameters.AddWithValue(nameof(Exam.IdProfessor), exam.IdProfessor);
             cmd.Parameters.AddWithValue(nameof(Exam.Mark), exam.Mark);
             cmd.Parameters.AddWithValue(nameof(Exam.IdExam), exam.IdExam);
+            Debug.WriteLine(cmd.CommandText);
 
             cmd.ExecuteNonQuery();
 
@@ -188,7 +189,7 @@ namespace Menager.Dal
 
         }
 
-      
+
 
         public Exam GetExam(int idExam)
         {
@@ -249,6 +250,12 @@ namespace Menager.Dal
             cmd.Parameters.AddWithValue(nameof(Student.FirstName), student.FirstName);
             cmd.Parameters.AddWithValue(nameof(Student.LastName), student.LastName);
             cmd.Parameters.AddWithValue(nameof(Student.IdStudent), student.IdStudent);
+
+            cmd.Parameters.Add(
+               new SqlParameter(nameof(Student.Picture), System.Data.SqlDbType.Binary, student.Picture!.Length)
+               {
+                   Value = student.Picture
+               });
             cmd.ExecuteNonQuery();
         }
 

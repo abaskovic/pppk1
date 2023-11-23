@@ -9,7 +9,9 @@
 
   <ItemGroup>
     <None Remove="Assets\back.png" />
+    <None Remove="Assets\edit.png" />
     <None Remove="Assets\gradient.png" />
+    <None Remove="Assets\plus.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +20,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\back.png" />
+    <Resource Include="Assets\edit.png" />
     <Resource Include="Assets\gradient.png" />
+    <Resource Include="Assets\plus.png" />
   </ItemGroup>
 
 </Project>
