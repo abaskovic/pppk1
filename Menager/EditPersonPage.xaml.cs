@@ -26,8 +26,8 @@ namespace Menager
         private const string Filter = "All supported graphics|*.jpg;*.jpeg;*.png|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|Portable Network Graphic (*.png)|*.png";
 
         private readonly Person? person;
-        public EditPersonPage(PersonViewModel personViewModel, Person? person = null)
-            : base(personViewModel)
+        public EditPersonPage(ExamViewModel examViewModel, Person? person = null)
+            : base(examViewModel)
         {
             InitializeComponent();
             this.person = person ?? new Person();
@@ -52,14 +52,14 @@ namespace Menager
                 person!.Email=tbEmail.Text.Trim();
                 person!.Picture = ImageUtils.BitmapIMageToByteArray(picture.Source as BitmapImage);
                 
-                if (person.IDPerson==0)
-                {
-                    PersonViewModel.People.Add(person);
-                }
-                else
-                {
-                    PersonViewModel.UpdatePerson(person);   
-                }
+                //if (person.IDPerson==0)
+                //{
+                //    ExamViewModel.Exam.Add(e);
+                //}
+                //else
+                //{
+                //    ExamViewModel.UpdateExam(person);   
+                //}
 
                 Frame?.NavigationService.GoBack();
 

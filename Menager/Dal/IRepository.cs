@@ -9,11 +9,27 @@ namespace Menager.Dal
 {
     public interface IRepository
     {
-        void AddPerson(Person person);  
-        void UpdatePerson(Person person);   
-        void DeletePerson(Person person);
-        Person GetPerson(int idPerson);
-        IList<Person> GetPeople();
+             IList<Subject> GetSubjects();
+        IList<Exam> GetExams();
+        IList<Student> GetStudents();
+        IList<Professor> GetProfessors();
+
+        void AddExam(Exam exam);    
+        void UpdateExam(Exam exam); 
+        void DeleteExam(int idExam);
+        Exam GetExam(int idExam);   
+        
+
+        void addStudent(Student student);
+        void updateStudent(Student student);
+        void deleteStudent(int idStudent);
+        Student getStudent(int idStudent);
+
+        void addProfessor(Professor proffesor);
+        void updateProfessor(Professor proffesor);
+        void deleteProfessor(int idProffesor);
+        Professor getProfessor(int idProffesor);
+
 
     }
 }
