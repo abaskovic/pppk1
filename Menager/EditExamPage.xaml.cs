@@ -21,8 +21,8 @@ namespace Menager
     {
         private readonly Exam? exam;
         private readonly List<Subject>? subjects;
-        private readonly List<Student>? students;
-        private readonly List<Professor>? profesors;
+        private readonly StudentViewModel? students;
+        private readonly ProfessorViewModel profesors;
 
         public EditExamPage(ExamViewModel examViewModel, ProfessorViewModel professorViewModel, StudentViewModel studentViewModel, Exam? exam = null)
             : base(examViewModel, professorViewModel, studentViewModel)
@@ -30,26 +30,25 @@ namespace Menager
             InitializeComponent();
             this.exam = exam ?? new Exam();
             subjects = RepositoryFactory.GetRepository.GetSubjects().ToList();
-            students = studentViewModel.Student.ToList();
-            profesors = professorViewModel.Professor.ToList();
+            students = studentViewModel;
+            profesors = professorViewModel;
             DataContext = exam;
-            SetComboBoxes(professorViewModel, studentViewModel, exam);
+            SetComboBoxes();
         }
 
-        private void SetComboBoxes(ProfessorViewModel professorViewModel, StudentViewModel studentViewModel, Exam? exam)
+        private void SetComboBoxes()
         {
-            cbStudent.ItemsSource = students;
-            cbProfessor.ItemsSource = profesors;
+            cbStudent.ItemsSource = students?.Student;
+            cbProfessor.ItemsSource = profesors?.Professor;
             cbSubject.ItemsSource = subjects;
 
 
             if (exam != null)
             {
-                cbProfessor.SelectedIndex = profesors!.ToList().FindIndex(p => p.IdProfessor == exam.IdProfessor);
-                cbStudent.SelectedIndex = students!.FindIndex(s => s.IdStudent == exam.IdStudent);
+                cbProfessor.SelectedIndex = profesors.Professor.ToList().FindIndex(p => p.IdProfessor == exam.IdProfessor);
+                cbStudent.SelectedIndex = students.Student.ToList().FindIndex(s => s.IdStudent == exam.IdStudent);
                 cbSubject.SelectedIndex = subjects!.ToList().FindIndex(p => p.IdSubject == exam.IdSubject);
-                picture.Source = students[students!.FindIndex(s => s.IdStudent == exam.IdStudent)].Image;
-
+                picture.Source = students?.Student[students.Student.ToList()!.FindIndex(s => s.IdStudent == exam.IdStudent)].Image;
             }
 
 
@@ -65,24 +64,23 @@ namespace Menager
         {
             var subjects = RepositoryFactory.GetRepository.GetSubjects();
             var selectedSubject = cbSubject.SelectedItem as Subject;
-            var idSubject = subjects.ToList().FindIndex(p => p.IdSubject == selectedSubject?.IdSubject);
+            var indexSubject = subjects.ToList().FindIndex(p => p.IdSubject == selectedSubject?.IdSubject);
 
             var selectedProfessor = cbProfessor.SelectedItem as Professor;
-            var idProfessor = profesors.FindIndex(p => p.IdProfessor == selectedProfessor?.IdProfessor);
+            var indexProfessor = profesors.Professor.ToList().FindIndex(p => p.IdProfessor == selectedProfessor?.IdProfessor);
             Student? selectedStudent = cbStudent.SelectedItem as Student;
 
-            var idStudent = students.FindIndex(p => p.IdStudent == selectedStudent?.IdStudent);
+            var indexStudent = students.Student.ToList().FindIndex(p => p.IdStudent == selectedStudent?.IdStudent);
 
             if (FormValid())
             {
                 exam!.Mark = int.Parse(tbMark.Text.Trim());
                 exam!.StudentName = cbStudent.SelectedItem.ToString();
                 exam!.ProfessorName = cbProfessor.SelectedItem.ToString();
-                exam!.SubjectName = cbStudent.SelectedItem.ToString();
-                exam!.IdStudent = students[idStudent].IdStudent;
-                exam!.IdProfessor = profesors[idProfessor].IdProfessor;
-                exam!.IdSubject = subjects[idSubject].IdSubject;
-
+                exam!.SubjectName = cbSubject.SelectedItem.ToString();
+                exam!.IdStudent = students.Student[indexStudent].IdStudent;
+                exam!.IdProfessor = profesors.Professor[indexProfessor].IdProfessor;
+                exam!.IdSubject = subjects[indexSubject].IdSubject;
 
                 if (exam.IdExam == 0)
                 {
@@ -120,7 +118,8 @@ namespace Menager
 
             tbMark.Background = Brushes.White;
 
-            if (!int.TryParse(tbMark.Text, out int r))
+            int.TryParse(tbMark.Text.Trim(), out int r);
+            if (r<1 || r>5 )
             {
                 ok = false;
                 tbMark.Background = Brushes.Red;
@@ -171,8 +170,6 @@ namespace Menager
 
             if (selected != null)
             {
-
-
                 Frame?.Navigate(new EditProfesorPage(ExamViewModel, ProfessorViewModel, StudentViewModel, selected)
                 {
                     Frame = Frame
@@ -183,8 +180,13 @@ namespace Menager
         private void CbStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selected = cbStudent.SelectedItem as Student;
-            picture.Source = selected.Image;
+            picture.Source = selected?.Image;
 
+        }
+
+        private void FramePage_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SetComboBoxes();
         }
     }
 }

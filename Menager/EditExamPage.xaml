@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Menager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="600"
-      Title="EditExamPage">
+      Title="EditExamPage" Loaded="FramePage_Loaded">
 
     <Grid x:Name="grid"  Background="{StaticResource GradientBackground}" RenderTransformOrigin="0.518,0.52">
         <Label Foreground="White" Content="Student" HorizontalAlignment="Left" Margin="34,102,0,0" VerticalAlignment="Top" Width="149"/>

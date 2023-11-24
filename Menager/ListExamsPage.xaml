@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Menager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="600"
-      Title="ListExamsPage">
+      Title="ListExamsPage" Loaded="FramePage_Loaded">
 
     <Grid  Background="{StaticResource GradientBackground}">
         <ListView x:Name="lvExams" Width="500" Height="300" Margin="50,47,50,103" AlternationCount="2">
@@ -35,7 +35,7 @@
                     <GridViewColumn Width="126" Header="Professor" DisplayMemberBinding="{Binding ProfessorName}"/>
                     <GridViewColumn Width="126" Header="Subject" DisplayMemberBinding="{Binding SubjectName}"/>
                     <GridViewColumn Width="126" Header="Mark" DisplayMemberBinding="{Binding Mark}"/>
-                 
+
                 </GridView>
             </ListView.View>
         </ListView>

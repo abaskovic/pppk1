@@ -17,7 +17,7 @@ namespace Menager
 
         private const string Filter = "All supported graphics|*.jpg;*.jpeg;*.png|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|Portable Network Graphic (*.png)|*.png";
         private readonly Student? student;
-        public EditStudentPage(ExamViewModel examViewModel ,ProfessorViewModel professorViewModel, StudentViewModel studentViewModel, Student? student= null)
+        public EditStudentPage(ExamViewModel examViewModel, ProfessorViewModel professorViewModel, StudentViewModel studentViewModel, Student? student = null)
                         : base(examViewModel, professorViewModel, studentViewModel)
         {
             InitializeComponent();
@@ -71,9 +71,7 @@ namespace Menager
                 {
                     StudentViewModel.UpdateStudent(student);
                 }
-
                 Frame?.NavigationService.GoBack();
-
             }
 
         }
@@ -91,5 +89,7 @@ namespace Menager
         {
             Frame?.NavigationService.GoBack();
         }
+
+      
     }
 }

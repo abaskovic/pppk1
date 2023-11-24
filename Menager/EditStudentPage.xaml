@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Menager"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="600"
-      Title="EditStudentPage">
+      Title="EditStudentPage" >
     <Grid x:Name="grid"  Background="{StaticResource GradientBackground}">
         <Border BorderBrush="White" x:Name="pictureBorder" BorderThickness="2"  Margin="334,75,66,75">
             <Image x:Name="picture" Source="{Binding Image}"  />
