@@ -78,6 +78,7 @@ namespace Menager
 
         private void FramePage_Loaded(object sender, RoutedEventArgs e)
         {
+            lvExams.ItemsSource = null;
             lvExams.ItemsSource = exams.Exam;
             Debug.WriteLine(exams.Exam[0].ProfessorName);
 
